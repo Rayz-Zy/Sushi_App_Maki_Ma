@@ -1,0 +1,73 @@
+<div class="cart-root">
+  @if (isOpen) {
+    <div class="cart-overlay" (click)="close.emit()"></div>
+  }
+
+  <aside class="cart-drawer" [class.open]="isOpen">
+    <div class="cart-panel">
+      <header class="cart-header">
+        <h2>Votre Panier</h2>
+        <button class="cart-close" (click)="close.emit()" aria-label="Fermer le panier">✕</button>
+      </header>
+
+      <section class="cart-body">
+        @if (exceedsBoxLimit) {
+          <div class="warning-message">
+            Attention : Vous avez {{ getTotalBoxes() }} boxes. Le maximum recommandé est de 10 boxes.
+          </div>
+        }
+        @if (items.length === 0) {
+          <div class="empty">Votre panier est vide</div>
+        } @else {
+          <div class="items">
+            @for (item of items; track getItemId(item)) {
+              <div class="item">
+                <div class="item-info">
+                  <div class="item-top">
+                    <strong class="item-name">{{ getItemName(item) }}</strong>
+                    <span class="item-price">{{ getItemPrice(item) | currency:'EUR':'symbol':'1.2-2' }}</span>
+                  </div>
+                  <p class="item-subtitle">
+                    @if (item.box) {
+                      {{ item.box.pieces }} pièces
+                    }
+                  </p>
+                  <div class="item-controls">
+                    <button (click)="decrement.emit(getItemId(item))" class="ctrl">-</button>
+                    <span class="qty">{{ item.quantity }}</span>
+                    <button (click)="increment.emit(getItemId(item))" class="ctrl">+</button>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </section>
+
+      <footer class="cart-footer">
+        <div class="total-row">
+          <span>Sous-total</span>
+          <strong>{{ total | currency:'EUR':'symbol':'1.2-2' }}</strong>
+        </div>
+        @if (studentDiscount > 0) {
+          <div class="discount-row">
+            <span>Remise étudiant (1.7%)</span>
+            <strong>-{{ studentDiscount | currency:'EUR':'symbol':'1.2-2' }}</strong>
+          </div>
+        }
+        @if (bulkDiscount > 0) {
+          <div class="discount-row">
+            <span>Remise volume (5+ boxes, 1.5%)</span>
+            <strong>-{{ bulkDiscount | currency:'EUR':'symbol':'1.2-2' }}</strong>
+          </div>
+        }
+        <div class="total-row final">
+          <span>Total</span>
+          <strong>{{ finalTotal | currency:'EUR':'symbol':'1.2-2' }}</strong>
+        </div>
+        <button [disabled]="items.length === 0" (click)="checkout.emit()" class="checkout">Commander</button>
+      </footer>
+    </div>
+  </aside>
+</div>
+

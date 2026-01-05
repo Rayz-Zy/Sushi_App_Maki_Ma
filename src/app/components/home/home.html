@@ -1,0 +1,35 @@
+<main class="home-page">
+	<section class="hero">
+		<div class="hero-content">
+			<div class="address-pill">
+				<input type="text" placeholder="saisissez adresse de livraison" />
+				<div class="status-dot"></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="products">
+		<div class="cards-grid">
+			@for (box of featuredBoxes(); track trackById($index, box)) {
+				<div class="sushi-card" (click)="panierService.addBox(box)">
+					<img class="card-image" [src]="apiService.getImageUrl(box.image)" alt="{{ box.name }}" (error)="onImgError($event)" />
+					<div>
+						<div>
+							<h3>{{ box.name }}</h3>
+							<span>
+								{{ box.price | currency:'EUR':'symbol':'1.2-2' }}
+							</span>
+						</div>
+						<p>{{ box.pieces }} pièces</p>
+						
+					</div>
+
+				</div>
+			}
+		</div>
+		
+		<div class="catalog-link">
+			<a routerLink="/catalogue" class="btn-catalog">Voir tout le catalogue</a>
+		</div>
+	</section>
+</main>

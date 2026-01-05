@@ -1,0 +1,93 @@
+/* Login page styles: split layout with image on the right */
+.auth-page{
+  width:100%;
+  min-height:100vh;
+  display:flex;
+  align-items:stretch;
+}
+.auth-card{
+  display:flex;
+  width:100%;
+  height:100%;
+  align-items:stretch;
+}
+.auth-form{ 
+    width:50%; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    padding:48px; 
+}
+
+.auth-form .card{
+  width:100%;
+  max-width:720px;
+  background:#fff;
+  padding:48px;
+  border-radius:12px;
+  box-shadow: 0 10px 36px rgba(18,18,18,0.07);
+}
+
+.auth-form h2{ 
+    font-size:32px; 
+    margin-bottom:12px; 
+}
+
+.auth-form p.lead{ 
+    color:#7a7a7a; 
+    margin-bottom:20px; 
+    font-size:15px; 
+}
+
+.auth-form label{ 
+    display:block; 
+    font-size:14px; 
+    margin-bottom:8px; 
+    color:#6b6b6b; 
+}
+
+.auth-form input{ 
+    width:100%; 
+    padding:14px 16px; 
+    border:1px solid #e6e6e6; 
+    border-radius:10px; 
+    margin-bottom:14px; 
+    font-size:15px; 
+}
+
+.auth-form button{
+    width:100%; 
+    padding:16px; 
+    background:#C1A057; 
+    color:#fff; 
+    border-radius:12px; 
+    font-weight:800; 
+    font-size:16px; 
+}
+
+.auth-image{ 
+    width:50%; 
+    min-height:100vh; 
+    background-image: url('http://localhost/sushi-api/images/Fond_sushi.jpg'); 
+    background-size:cover; 
+    background-position:center; 
+    background-repeat:no-repeat; 
+    border-radius:0 12px 12px 0; 
+}
+
+@media (max-width: 900px){
+  .auth-card{ flex-direction:column-reverse; }
+  .auth-image{ 
+    width:100%; 
+    min-height:260px; 
+    border-radius:10px; 
+    }
+  .auth-form{ 
+    width:100%; 
+    padding: 20px; 
+  }
+  .auth-form .card{ 
+    padding:24px; 
+    max-width:640px; 
+    }
+}

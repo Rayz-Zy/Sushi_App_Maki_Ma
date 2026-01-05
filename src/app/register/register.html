@@ -1,0 +1,61 @@
+<div class="auth-page">
+	<div class="auth-card">
+		<div class="auth-form">
+			<div class="card">
+				<h2>Créer un compte</h2>
+
+				<!--si l'API renvoie une erreur lors de l'inscription -->
+				<div *ngIf="error()">
+					{{ error() }}
+				</div>
+
+				<form (ngSubmit)="onSubmit()" class="space-y-4">
+					<div>
+						<label>Nom complet</label>
+						<input [(ngModel)]="name" name="name" type="text" required>
+					</div>
+
+					<div>
+						<label>Email</label>
+						<input [(ngModel)]="email" name="email" type="email" required>
+					</div>
+          
+					<div>
+						<label>Mot de passe</label>
+						<input [(ngModel)]="password" name="password" type="password" required>
+					</div>
+
+					<div>
+						<label>Numéro de téléphone</label>
+						<input [(ngModel)]="telephone" name="telephone" type="tel" required>
+					</div>
+
+					<div>
+						<label>Adresse</label>
+						<input [(ngModel)]="adresse" name="adresse" type="text" required>
+					</div>
+
+					<div>
+						<label>Statut</label>
+						<select [(ngModel)]="statut" name="statut" required>
+							<option value="">Aucun</option>
+							<option value="etudiant">Étudiant</option>
+							<option value="admin">Admin</option>
+						</select>
+					</div>
+
+					<button type="submit">
+						S'inscrire
+					</button>
+				</form>
+
+				<p>
+					Déjà un compte ? 
+					<a routerLink="/login">Se connecter</a>
+				</p>
+			</div>
+		</div>
+
+		<div class="auth-image" aria-hidden="true"></div>
+	</div>
+</div>

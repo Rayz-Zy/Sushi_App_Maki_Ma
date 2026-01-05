@@ -1,0 +1,102 @@
+<main class="catalogue-page">
+	<section class="products">
+		<div class="sort-controls">
+			<h3>Trier par :</h3>
+			<button 
+				class="sort-btn" 
+				[class.active]="sortBy() === 'name'"
+				(click)="changeSortBy('name')">
+				Nom {{ sortBy() === 'name' ? (sortOrder() === 'asc' ? '↑' : '↓') : '' }}
+			</button>
+			<button 
+				class="sort-btn" 
+				[class.active]="sortBy() === 'price'"
+				(click)="changeSortBy('price')">
+				Prix {{ sortBy() === 'price' ? (sortOrder() === 'asc' ? '↑' : '↓') : '' }}
+			</button>
+			<button 
+				class="sort-btn" 
+				[class.active]="sortBy() === 'pieces'"
+				(click)="changeSortBy('pieces')">
+				Pièces {{ sortBy() === 'pieces' ? (sortOrder() === 'asc' ? '↑' : '↓') : '' }}
+			</button>
+		</div>
+
+		<div class="cards-grid">
+			@for (box of sortedBoxes(); track trackById($index, box)) {
+				<div class="sushi-card" (click)="openModal(box)">
+					<img class="card-image" [src]="apiService.getImageUrl(box.image)" alt="{{ box.name }}" (error)="onImgError($event)" />
+					<div>
+						<div>
+							<h3>{{ box.name }}</h3>
+							<span>
+								{{ box.price | currency:'EUR':'symbol':'1.2-2' }}
+							</span>
+						</div>
+						<p>{{ box.pieces }} pièces</p>
+					</div>
+				</div>
+			}
+		</div>
+	</section>
+</main>
+
+<div class="modal-overlay" *ngIf="selectedBox()" (click)="closeModal()">
+	<div class="modal-content" (click)="$event.stopPropagation()">
+		<button class="modal-close" (click)="closeModal()">✕</button>
+		
+		<div class="modal-body">
+			<h2>{{ selectedBox()!.name }}</h2>
+
+				<img class="modal-image" [src]="apiService.getImageUrl(selectedBox()!.image)" alt="{{ selectedBox()!.name }}" (error)="onImgError($event)" />
+			
+			<div class="box-info">
+				<div class="info-item">
+					<strong>Nombre de pièces:</strong>
+					<span>{{ selectedBox()!.pieces }}</span>
+				</div>
+				<div class="info-item">
+					<strong>Prix:</strong>
+					<span>{{ selectedBox()!.price | currency:'EUR':'symbol':'1.2-2' }}</span>
+				</div>
+			</div>
+
+			<div class="foods-section">
+				<h3>Aliments inclus</h3>
+				<div class="foods-list">
+					@for (food of selectedBox()!.aliments; track food.id) {
+						<div class="food-item">
+							<span class="food-name">{{ food.nom }}</span>
+							<span class="food-quantity">x{{ food.quantite }}</span>
+						</div>
+					}
+				</div>
+			</div>
+
+			<div class="flavors-section">
+				<h3>Saveurs</h3>
+				<div class="flavors-list">
+					@for (flavor of selectedBox()!.saveurs; track flavor) {
+						<span class="flavor-tag">
+							{{ flavor }}
+						</span>
+					}
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<div class="quantity-selector">
+					<label for="quantity">Quantité:</label>
+					<div class="quantity-controls">
+						<button (click)="modalQuantity.set(Math.max(1, modalQuantity() - 1))" class="qty-btn">-</button>
+						<input type="number" [(ngModel)]="modalQuantity" min="1" max="99" />
+						<button (click)="modalQuantity.set(modalQuantity() + 1)" class="qty-btn">+</button>
+					</div>
+				</div>
+				<button class="add-to-cart-btn" (click)="addToCartFromModal()">
+					Ajouter au panier
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

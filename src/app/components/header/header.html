@@ -1,0 +1,26 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" routerLink="/">
+      <img src="/Logo.png" alt="Maki-Ma Logo" class="logo-img" />
+      Maki-Ma
+    </a>
+    <nav class="header-nav">
+      <a class="link" routerLink="/catalogue">Catalogue</a>
+      <a class="link" routerLink="/orders">Mes commandes</a>
+      @if (auth.currentUser()?.statut === 'admin') {
+        <a class="link" routerLink="/statistics">Statistiques</a>
+      }
+      @if (auth.currentUser()) {
+        <span class="greeting">{{ auth.currentUser()?.name }}</span>
+        <button class="logout" (click)="auth.logout()">Déconnexion</button>
+      } @else {
+        <a class="link" routerLink="/login">Connexion</a>
+        <a class="link" routerLink="/register">S'inscrire</a>
+      }
+      <button class="cart-link" (click)="panier.toggle()" aria-label="Ouvrir le panier">
+        Panier
+        <span class="cart-count" *ngIf="panier.count() > 0">{{ panier.count() }}</span>
+      </button>
+    </nav>
+  </div>
+</header>

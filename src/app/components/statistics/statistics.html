@@ -1,0 +1,64 @@
+<div class="statistics-container">
+  <div class="statistics-header">
+    <h1>Statistiques de Commandes</h1>
+  </div>
+
+  <div *ngIf="error && !loading" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error" class="statistics-content">
+    <div class="summary-cards">
+      <div class="card">
+        <div class="card-value">{{ getTotalCommandes() }}</div>
+        <div class="card-label">Total Commandes</div>
+      </div>
+      <div class="card">
+        <div class="card-value">{{ getTotalDepense() }}€</div>
+        <div class="card-label">Total Dépensé</div>
+      </div>
+      <div class="card">
+        <div class="card-value">{{ getDepenseMoyenne() }}€</div>
+        <div class="card-label">Dépense Moyenne</div>
+      </div>
+      <div class="card" *ngIf="statistiquesTotales">
+        <div class="card-value">{{ statistiquesTotales.commande_max }}€</div>
+        <div class="card-label">Plus Grosse Commande</div>
+      </div>
+    </div>
+
+    <div class="charts-section">
+      <div class="chart-container">
+        <canvas #chartCommandes></canvas>
+      </div>
+      
+      <div class="chart-container">
+        <canvas #chartBoxes></canvas>
+      </div>
+    </div>
+
+    <div class="boxes-table-section" *ngIf="boxesPopulaires.length > 0">
+      <h2>Top 5 Boxes Favorites</h2>
+      <table class="boxes-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nom de la Box</th>
+            <th>Nombre de Commandes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let box of boxesPopulaires; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ box.name }}</td>
+            <td class="count">{{ box.nombre_commandes }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="getTotalCommandes() === 0" class="no-data">
+      <p>Aucune commande trouvée. Commencez à commander pour voir vos statistiques !</p>
+    </div>
+  </div>
+</div>
