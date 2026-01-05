@@ -4,3 +4,7 @@ Le dossier API contient aussi la BDD
 
 Accès admin : email : admin1@
               mdp : admin
+
+
+Accès utilisateur : email : test3@
+                    mdp : 123456
